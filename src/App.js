@@ -3,8 +3,8 @@ import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 import { useEffect } from 'react';
-import { toggleAction } from './components/Store/Toggle';
 import Notification from './components/UI/Notification';
+import { fetchCart, sendCartData } from './components/Store/cart-actions';
 
 let isInitial=true;
 
@@ -15,36 +15,15 @@ function App() {
   const dispatch=useDispatch();
 
   useEffect(()=>{
-    const sendCardData=async()=>{
-      dispatch(toggleAction.showNotification({
-        status: "pending",
-        title: 'Sending...',
-        message: 'Sending cart data!'
-      }))
-    const response=await fetch('https://practice-fc64d-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json',{
-      method: 'PUT',
-      body: JSON.stringify(cart),
-    })
-    if (!response.ok){
-      throw new Error('Sending cart data failed');
-    }
-    dispatch(toggleAction.showNotification({
-      status: "success",
-      title: 'Success!',
-      message: 'Sent cart data successfully!'
-    }))
-  }
+    dispatch(fetchCart());
+  },[dispatch]);
+
+  useEffect(()=>{
   if (isInitial){
     isInitial=false;
     return;
   }
-    sendCardData().catch(error=>{
-      dispatch(toggleAction.showNotification({
-        status: "error",
-        title: 'Error!',
-        message: 'Sending cart data failed!'
-      }))
-    });
+  dispatch(sendCartData(cart));
   },[cart, dispatch]);
 
   return (
