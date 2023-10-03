@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import Toggle from "./Toggle";
+import cartSlice from "./cartSlice";
 
 const store=configureStore({
-    reducer: Toggle
+    reducer: { toggle: Toggle.reducer, cart: cartSlice.reducer}
 })
 
 export default store;

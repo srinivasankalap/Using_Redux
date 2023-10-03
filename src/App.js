@@ -4,7 +4,7 @@ import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 
 function App() {
-  const show=useSelector(state=> state.reducer.isShowing);
+  const show=useSelector(state=> state.toggle.isShowing);
   return (
     <Layout>
       {show && <Cart />}
